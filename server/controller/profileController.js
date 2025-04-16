@@ -8,7 +8,7 @@ exports.saveProfile = async (req, res) => {
 
     res.status(200).json({
       message: 'Profile saved successfully',
-      profileId: savedProfile._id
+      profile: savedProfile
     });
   } catch (error) {
     console.error('Error saving profile:', error);

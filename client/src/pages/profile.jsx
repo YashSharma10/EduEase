@@ -372,7 +372,7 @@ const Profile = () => {
         formData
       );
       console.log("Saved Profile ID:", response.data);
-      localStorage.setItem("profileId", response.data.profileId);
+      localStorage.setItem("profileId", JSON.stringify(response.data.profile));
       toast.success(`${response.data.message}`);
       navigate(`/`);
     } catch (error) {
