@@ -20,6 +20,8 @@ import json
 @app.route('/api/serper/search', methods=['GET'])
 def courses():
     query = request.args.get("q")
+    topic = request.args.get("newParam")
+    print("topic", topic)
 
     if not query:
         return jsonify({"error": "Missing query param"}), 400
@@ -32,7 +34,7 @@ def courses():
             "learningPace": person.get("learningPace"),
         }
 
-        queary = f'show me courses on python for {selected_data["classGrade"]} and i am {selected_data["learningStyle"]} learner and my learning pace is {selected_data["learningPace"]} '
+        queary = f'show me courses on {topic} for {selected_data["classGrade"]} and i am {selected_data["learningStyle"]} learner and my learning pace is {selected_data["learningPace"]} '
         print(queary)
         url = "https://google.serper.dev/images"
 
