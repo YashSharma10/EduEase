@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Profile from "./profile"
+import Profile from "./Profile"
 import Dashboard from "./dashboard"
 import "./switch.css"
 

@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const profileSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   age: { type: Number, required: true },
   classGrade: { type: String, required: true },
-  learningStyle: { type: String, required: true },
+  learningStyle: [{ type: String, required: true }],
   learningPace: { type: String, required: true },
   subjectInterest: String,
   studyDuration: String,
@@ -13,9 +13,9 @@ const profileSchema = new mongoose.Schema({
   voiceLearning: String,
   boardCurriculum: String,
   preferredFormat: String,
-  careerGoal: String,
+  careerGoal: { type: String, required: true }, 
 });
 
-const Profile = mongoose.model('Profile', profileSchema);
+const Profile = mongoose.model("Profile", profileSchema);
 
 module.exports = Profile;

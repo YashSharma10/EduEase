@@ -1,12 +1,16 @@
 import React from "react";
-import { Button } from "./components/ui/button";
-import HomePage from "./pages/home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FuturisticAILanding from "./pages/LandingPage";
+import Profile from "./pages/Profile";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
   return (
-    <div>
-      <HomePage />
-    </div>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/" element={<FuturisticAILanding />} /> */}
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
   );
 };
 

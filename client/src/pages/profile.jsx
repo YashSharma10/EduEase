@@ -1,30 +1,313 @@
-import { useState } from "react";
-import "./profile.css";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+// import { useState } from "react";
+// import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Label } from "@/components/ui/label";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import { Checkbox } from "@/components/ui/checkbox";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 
-// Mock data for the charts
-// const learningStyleData = [
-//   { name: "Visual", value: 40 },
-//   { name: "Auditory", value: 25 },
-//   { name: "Reading", value: 20 },
-//   { name: "Kinesthetic", value: 15 },
+// const learningStyleOptions = [
+//   "Visual (Images, diagrams)",
+//   "Text (Notes, reading)",
 // ];
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+// const classGrades = [
+//   "Class 1",
+//   "Class 2",
+//   "Class 3",
+//   "Class 4",
+//   "Class 5",
+//   "Class 6",
+//   "Class 7",
+//   "Class 8",
+//   "Class 9",
+//   "Class 10",
+//   "Class 11",
+//   "Class 12",
+//   "College 1st Year",
+//   "College 2nd Year",
+//   "College 3rd Year",
+//   "College 4th Year",
+// ];
+
+// const Profile = () => {
+//   const [formData, setFormData] = useState({
+//     fullName: "",
+//     age: "",
+//     classGrade: "Class 1",
+//     learningStyle: [],
+//     learningPace: "",
+//     careerGoal: "",
+//     subjectInterest: "",
+//     studyDuration: "",
+//     frequency: "",
+//     topicsDifficulty: "",
+//     voiceLearning: "",
+//     boardCurriculum: "",
+//     preferredFormat: "",
+//   });
+
+//   const [showMore, setShowMore] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+
+//     if (name === "learningStyle") {
+//       setFormData((prev) => ({
+//         ...prev,
+//         learningStyle: checked
+//           ? [...prev.learningStyle, value]
+//           : prev.learningStyle.filter((style) => style !== value),
+//       }));
+//     } else {
+//       setFormData((prev) => ({
+//         ...prev,
+//         [name]: value,
+//       }));
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const mandatoryFields = [
+//       "fullName",
+//       "age",
+//       "classGrade",
+//       "learningStyle",
+//       "learningPace",
+//       "careerGoal",
+//     ];
+//     for (let field of mandatoryFields) {
+//       if (
+//         !formData[field] ||
+//         (field === "learningStyle" && formData.learningStyle.length === 0)
+//       ) {
+//         alert("Please fill all mandatory fields.");
+//         return;
+//       }
+//     }
+
+//     try {
+//       const response = await fetch("http://localhost:5000/api/save-profile", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(formData),
+//       });
+//       response.ok ? alert("Profile saved!") : alert("Failed to save.");
+//     } catch (err) {
+//       console.error("Save error:", err);
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-4xl mx-auto mt-8">
+//       <Card className="shadow-lg">
+//         <CardHeader>
+//           <CardTitle className="text-2xl font-bold text-blue-700">
+//             Student Profile
+//           </CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//           <form onSubmit={handleSubmit} className="space-y-6">
+//             <div>
+//               <Label>Full Name *</Label>
+//               <Input
+//                 name="fullName"
+//                 value={formData.fullName}
+//                 onChange={handleChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <Label>Age *</Label>
+//               <Input
+//                 type="number"
+//                 name="age"
+//                 min="5"
+//                 max="25"
+//                 value={formData.age}
+//                 onChange={handleChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <Label>Class / Grade *</Label>
+//               <Select
+//                 value={formData.classGrade}
+//                 onValueChange={(value) =>
+//                   setFormData((prev) => ({ ...prev, classGrade: value }))
+//                 }
+//               >
+//                 <SelectTrigger>
+//                   <SelectValue placeholder="Select grade" />
+//                 </SelectTrigger>
+//                 <SelectContent>
+//                   {classGrades.map((grade) => (
+//                     <SelectItem key={grade} value={grade}>
+//                       {grade}
+//                     </SelectItem>
+//                   ))}
+//                 </SelectContent>
+//               </Select>
+//             </div>
+
+//             <div>
+//               <Label>Learning Style *</Label>
+//               <div className="flex gap-4 flex-wrap mt-2">
+//                 {learningStyleOptions.map((style) => (
+//                   <div key={style} className="flex items-center gap-2">
+//                     <Checkbox
+//                       checked={formData.learningStyle.includes(style)}
+//                       onCheckedChange={(checked) =>
+//                         handleChange({
+//                           target: {
+//                             name: "learningStyle",
+//                             value: style,
+//                             checked,
+//                           },
+//                         })
+//                       }
+//                     />
+//                     <span>{style}</span>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+
+//             <div>
+//               <Label>Learning Pace *</Label>
+//               <RadioGroup
+//                 value={formData.learningPace}
+//                 onValueChange={(val) =>
+//                   setFormData((prev) => ({ ...prev, learningPace: val }))
+//                 }
+//               >
+//                 {[
+//                   "Fast Learner",
+//                   "Intermediate Learner",
+//                   "Slow Learner",
+//                   "Variable Learner",
+//                 ].map((pace) => (
+//                   <div key={pace} className="flex items-center space-x-2">
+//                     <RadioGroupItem value={pace} id={pace} />
+//                     <Label htmlFor={pace}>{pace}</Label>
+//                   </div>
+//                 ))}
+//               </RadioGroup>
+//             </div>
+
+//             <div>
+//               <Label>Career Goal *</Label>
+//               <Input
+//                 name="careerGoal"
+//                 value={formData.careerGoal}
+//                 onChange={handleChange}
+//                 required
+//               />
+//             </div>
+
+//             {/* Show More Section */}
+//             <div className="text-right">
+//               <Button
+//                 type="button"
+//                 variant="link"
+//                 onClick={() => setShowMore((prev) => !prev)}
+//               >
+//                 {showMore ? "Hide Optional Fields" : "Show More"}
+//               </Button>
+//             </div>
+
+//             {showMore && (
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                 {[
+//                   { name: "subjectInterest", label: "Subject Interest" },
+//                   { name: "studyDuration", label: "Study Duration" },
+//                   {
+//                     name: "frequency",
+//                     label: "Frequency of Learning Sessions",
+//                   },
+//                   { name: "topicsDifficulty", label: "Topics Difficulty" },
+//                   { name: "voiceLearning", label: "Voice Learning" },
+//                   { name: "boardCurriculum", label: "Board and Curriculum" },
+//                   { name: "preferredFormat", label: "Preferred Format" },
+//                 ].map((field) => (
+//                   <div key={field.name}>
+//                     <Label>{field.label}</Label>
+//                     <Input
+//                       name={field.name}
+//                       value={formData[field.name]}
+//                       onChange={handleChange}
+//                     />
+//                   </div>
+//                 ))}
+//               </div>
+//             )}
+
+//             <div className="pt-4">
+//               <Button type="submit" className="w-full">
+//                 Save Profile
+//               </Button>
+//             </div>
+//           </form>
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+
+
+const learningStyleOptions = [
+  "Visual (Images, diagrams)",
+  "Text (Notes, reading)",
+];
+
+const classGrades = [
+  "Class 1",
+  "Class 2",
+  "Class 3",
+  "Class 4",
+  "Class 5",
+  "Class 6",
+  "Class 7",
+  "Class 8",
+  "Class 9",
+  "Class 10",
+  "Class 11",
+  "Class 12",
+  "College 1st Year",
+  "College 2nd Year",
+  "College 3rd Year",
+  "College 4th Year",
+];
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "Yash Sharma",
-    age: "18",
+    fullName: "",
+    age: "",
     classGrade: "Class 1",
-    learningStyle: "Text (Notes, reading)",
+    learningStyle: [],
     learningPace: "",
+    careerGoal: "",
     subjectInterest: "",
     studyDuration: "",
     frequency: "",
@@ -32,333 +315,223 @@ const Profile = () => {
     voiceLearning: "",
     boardCurriculum: "",
     preferredFormat: "",
-    careerGoal: "",
   });
 
+  const [showMore, setShowMore] = useState(false);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+    if (name === "learningStyle") {
+      setFormData((prev) => ({
+        ...prev,
+        learningStyle: checked
+          ? [...prev.learningStyle, value]
+          : prev.learningStyle.filter((style) => style !== value),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:5000/api/save-profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        alert("Profile saved successfully!");
-      } else {
-        alert("Failed to save profile.");
+    const mandatoryFields = [
+      "fullName",
+      "age",
+      "classGrade",
+      "learningStyle",
+      "learningPace",
+      "careerGoal",
+    ];
+    for (let field of mandatoryFields) {
+      if (
+        !formData[field] ||
+        (field === "learningStyle" && formData.learningStyle.length === 0)
+      ) {
+        alert("Please fill all mandatory fields.");
+        return;
       }
+    }
+    // try {
+    //   const response = await fetch("http://localhost:5000/api/save-profile", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(formData),
+    //   });
+    //   response.ok ? console.log(response) : alert("Failed to save.");
+    // } catch (err) {
+    //   console.error("Save error:", err);
+    // }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/save-profile",
+        formData
+      );
+      console.log("Saved Profile ID:", response.data);
+      localStorage.setItem("profileId", response.data.profileId);
+      toast.success(`${response.data.message}`);
+      navigate(`/`);
     } catch (error) {
-      console.error("Error saving profile:", error);
+      console.error("Save error:", error);
+      alert("Failed to save.");
     }
   };
 
   return (
-    <div className="profile-section">
-      <div className="profile-header">
-        <div className="profile-avatar">
-          <img src="https://placehold.co/150x150" alt="User Avatar" />
-        </div>
-        <div className="profile-info">
-          <h2>Alex Johnson</h2>
-          <p className="profile-email">alex.johnson@example.com</p>
-          <p className="profile-joined">Member since: January 2023</p>
-          <button className="edit-profile-btn">Edit Profile</button>
-        </div>
-      </div>
+    <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
+      {/* Background and Motion Effects */}
+      <motion.div
+        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+        className="absolute inset-0 z-0 bg-[length:400%_400%] bg-gradient-to-r from-[#0c0c0c] via-[#1a1a1a] to-[#0c0c0c]"
+        style={{ backgroundSize: "400% 400%" }}
+      />
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="age">Age</label>
-          <input
-            type="number"
-            id="age"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            min="5"
-            max="25"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="classGrade">Class / Grade Level</label>
-          <select
-            id="classGrade"
-            name="classGrade"
-            value={formData.classGrade}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select</option>
-            <option value="Class 1">Class 1</option>
-            <option value="Class 2">Class 2</option>
-            <option value="Class 3">Class 3</option>
-            <option value="Class 4">Class 4</option>
-            <option value="Class 5">Class 5</option>
-            <option value="Class 6">Class 6</option>
-            <option value="Class 7">Class 7</option>
-            <option value="Class 8">Class 8</option>
-            <option value="Class 9">Class 9</option>
-            <option value="Class 10">Class 10</option>
-            <option value="Class 11">Class 11</option>
-            <option value="Class 12">Class 12</option>
-            <option value="College 1st Year">College 1st Year</option>
-            <option value="College 2nd Year">College 2nd Year</option>
-            <option value="College 3rd Year">College 3rd Year</option>
-            <option value="College 4th Year">College 4th Year</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="learningStyle">Learning Style</label>
-          <select
-            id="learningStyle"
-            name="learningStyle"
-            value={formData.learningStyle}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select</option>
-            <option value="Visual">Visual (Videos, diagrams)</option>
-            <option value="Text">Text (Notes, reading)</option>
-            <option value="Auditory">Auditory (Listening, discussions)</option>
-            <option value="Kinesthetic">Kinesthetic (Hands-on activities)</option>
-            <option value="Social">Social (Group learning, discussions)</option>
-            <option value="Solitary">Solitary (Independent study)</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Learning Pace</label>
+      <motion.div
+        animate={{ x: [0, 30, -30, 0], y: [0, -30, 30, 0] }}
+        transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+        className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-blue-500 opacity-10 rounded-full filter blur-3xl"
+      />
+
+      <motion.div
+        animate={{ x: [0, -40, 40, 0], y: [0, 40, -40, 0] }}
+        transition={{ repeat: Infinity, duration: 30, ease: "easeInOut" }}
+        className="absolute bottom-[-120px] right-[-120px] w-[400px] h-[400px] bg-blue-400 opacity-10 rounded-full filter blur-3xl"
+      />
+
+      <div className="relative z-10 max-w-4xl mx-auto p-6 py-24">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100 mb-10 text-center"
+        >
+          Customize Your Learning Experience
+        </motion.h2>
+
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white/5 backdrop-blur-md rounded-xl shadow-md p-6 space-y-6 text-white"
+        >
           <div>
-            <label>
-              <input
-                type="radio"
-                name="learningPace"
-                value="Fast Learner"
-                checked={formData.learningPace === "Fast Learner"}
-                onChange={handleChange}
-                required
-              />
-              Fast Learner
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="learningPace"
-                value="Intermediate Learner"
-                checked={formData.learningPace === "Intermediate Learner"}
-                onChange={handleChange}
-              />
-              Intermediate Learner
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="learningPace"
-                value="Slow Learner"
-                checked={formData.learningPace === "Slow Learner"}
-                onChange={handleChange}
-              />
-              Slow Learner
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="learningPace"
-                value="Variable Learner"
-                checked={formData.learningPace === "Variable Learner"}
-                onChange={handleChange}
-              />
-              Variable Learner
-            </label>
+            <label className="block font-medium">Full Name *</label>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              required
+            />
           </div>
-        </div>
-        {/* Optional fields */}
-        <div className="form-group">
-          <label htmlFor="subjectInterest">Subject Interest</label>
-          <input
-            type="text"
-            id="subjectInterest"
-            name="subjectInterest"
-            value={formData.subjectInterest}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="studyDuration">Study Duration</label>
-          <input
-            type="text"
-            id="studyDuration"
-            name="studyDuration"
-            value={formData.studyDuration}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="frequency">Frequency of Learning Sessions</label>
-          <input
-            type="text"
-            id="frequency"
-            name="frequency"
-            value={formData.frequency}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="topicsDifficulty">Topics Difficulty</label>
-          <input
-            type="text"
-            id="topicsDifficulty"
-            name="topicsDifficulty"
-            value={formData.topicsDifficulty}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="voiceLearning">Voice Learning</label>
-          <input
-            type="text"
-            id="voiceLearning"
-            name="voiceLearning"
-            value={formData.voiceLearning}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="boardCurriculum">Board and Curriculum</label>
-          <input
-            type="text"
-            id="boardCurriculum"
-            name="boardCurriculum"
-            value={formData.boardCurriculum}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="preferredFormat">Preferred Learning Format</label>
-          <input
-            type="text"
-            id="preferredFormat"
-            name="preferredFormat"
-            value={formData.preferredFormat}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="careerGoal">Career Goal</label>
-          <input
-            type="text"
-            id="careerGoal"
-            name="careerGoal"
-            value={formData.careerGoal}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <input type="submit" value="Save Profile" />
-        </div>
-      </form>
 
-      {/* <div className="learning-style-section">
-        <h3>Learning Style Preferences</h3>
-        <div className="learning-style-chart">
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={learningStyleData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              >
-                {learningStyleData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+          <div>
+            <label className="block font-medium">Age *</label>
+            <input
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              min="5"
+              max="25"
+              required
+            />
+          </div>
 
-        <div className="learning-style-details">
-          <div className="learning-style-item">
-            <span className="style-color" style={{ backgroundColor: COLORS[0] }}></span>
-            <span className="style-name">Visual</span>
-            <span className="style-description">Learns best through images, diagrams, and spatial understanding</span>
-          </div>
-          <div className="learning-style-item">
-            <span className="style-color" style={{ backgroundColor: COLORS[1] }}></span>
-            <span className="style-name">Auditory</span>
-            <span className="style-description">Learns best through listening and verbal discussions</span>
-          </div>
-          <div className="learning-style-item">
-            <span className="style-color" style={{ backgroundColor: COLORS[2] }}></span>
-            <span className="style-name">Reading</span>
-            <span className="style-description">Learns best through reading and writing information</span>
-          </div>
-          <div className="learning-style-item">
-            <span className="style-color" style={{ backgroundColor: COLORS[3] }}></span>
-            <span className="style-name">Kinesthetic</span>
-            <span className="style-description">Learns best through hands-on activities and experiences</span>
-          </div>
-        </div>
-
-        <div className="learning-preferences">
-          <h4>Personalization Settings</h4>
-          <div className="preference-item">
-            <label>Content Format Preference:</label>
-            <select>
-              <option>Visual-focused content</option>
-              <option>Audio lectures</option>
-              <option>Text-based materials</option>
-              <option>Interactive exercises</option>
+          <div>
+            <label className="block font-medium">Class / Grade *</label>
+            <select
+              name="classGrade"
+              value={formData.classGrade}
+              onChange={handleChange}
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+            >
+              {classGrades.map((grade) => (
+                <option key={grade} value={grade}>
+                  {grade}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="preference-item">
-            <label>Study Session Duration:</label>
-            <select>
-              <option>15-30 minutes</option>
-              <option>30-45 minutes</option>
-              <option>45-60 minutes</option>
-              <option>60+ minutes</option>
-            </select>
+
+          <div>
+            <label className="block font-medium mb-1">Learning Style *</label>
+            <div className="grid grid-cols-2 gap-2">
+              {learningStyleOptions.map((style) => (
+                <label key={style} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="learningStyle"
+                    value={style}
+                    checked={formData.learningStyle.includes(style)}
+                    onChange={handleChange}
+                  />
+                  {style}
+                </label>
+              ))}
+            </div>
           </div>
-          <div className="preference-item">
-            <label>Difficulty Level:</label>
-            <select>
-              <option>Beginner</option>
-              <option>Intermediate</option>
-              <option>Advanced</option>
-              <option>Expert</option>
-            </select>
+
+          <div>
+            <label className="block font-medium">Learning Pace *</label>
+            <div className="flex flex-wrap gap-4 mt-2">
+              {[
+                "Fast Learner",
+                "Intermediate Learner",
+                "Slow Learner",
+                "Variable Learner",
+              ].map((pace) => (
+                <label key={pace} className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="learningPace"
+                    value={pace}
+                    checked={formData.learningPace === pace}
+                    onChange={handleChange}
+                  />
+                  {pace}
+                </label>
+              ))}
+            </div>
           </div>
-          <button className="save-preferences-btn">Save Preferences</button>
-        </div>
-      </div> */}
+
+          <div>
+            <label className="block font-medium">Career Goal *</label>
+            <input
+              type="text"
+              name="careerGoal"
+              value={formData.careerGoal}
+              onChange={handleChange}
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              required
+            />
+          </div>
+
+          <div className="text-right">
+            <button
+              type="button"
+              className="text-blue-300 underline"
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? "Hide Optional Fields" : "Show More"}
+            </button>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="w-full mt-4 bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 font-semibold text-black py-3 rounded-full"
+            >
+              Save Profile
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
