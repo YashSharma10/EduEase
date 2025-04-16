@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const profileRoutes = require('./routes/profileRoutes');
 const dbConfig = require('./config/db');
+const quizRoutes = require('./routes/quizRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ db.once('open', () => {
 
 // Routes
 app.use('/api', profileRoutes);
+app.use('/api', quizRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
