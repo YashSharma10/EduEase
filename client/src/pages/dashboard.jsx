@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import "./Dashboard.css"
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -13,7 +12,7 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
-} from "recharts"
+} from "recharts";
 
 // Mock data for the charts
 const learningProgressData = [
@@ -23,263 +22,168 @@ const learningProgressData = [
   { name: "Week 4", progress: 60 },
   { name: "Week 5", progress: 75 },
   { name: "Week 6", progress: 85 },
-]
+];
 
-const subjectProgressData = [
-  { name: "Math", completed: 75, total: 100 },
-  { name: "Science", completed: 60, total: 100 },
-  { name: "History", completed: 45, total: 100 },
-  { name: "Language", completed: 90, total: 100 },
-]
-
-const quizScoresData = [
-  { name: "Quiz 1", score: 85 },
-  { name: "Quiz 2", score: 70 },
-  { name: "Quiz 3", score: 90 },
-  { name: "Quiz 4", score: 75 },
-  { name: "Quiz 5", score: 95 },
-]
+// Static data to be used if API data is not available
+const staticStudentData = {
+  name: "John Doe",
+  age: 20,
+  grade: "A",
+  courses: ["Math", "Science", "History"],
+};
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeScreen, setActiveScreen] = useState("overview");
+  const [studentData, setStudentData] = useState(staticStudentData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        const profileId = localStorage.getItem('profileId'); // Fetch user ID from local storage
+        if (!profileId) {
+          throw new Error('User ID not found in local storage');
+        }
+
+        const response = await fetch(`http://localhost:5000/api/get-profile/${profileId}`); // Replace with your actual API endpoint
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setStudentData(data);
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudentData();
+  }, []);
+
+  if (loading) {
+    return <div className="loading-screen flex items-center justify-center h-screen text-white">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-screen flex items-center justify-center h-screen text-white">Error: {error.message}</div>;
+  }
 
   return (
-    <div className="dashboard-section">
-      <div className="dashboard-header">
-        <h2>Learning Dashboard</h2>
-        <div className="dashboard-tabs">
-          <button className={activeTab === "overview" ? "active" : ""} onClick={() => setActiveTab("overview")}>
-            Overview
-          </button>
-          <button className={activeTab === "progress" ? "active" : ""} onClick={() => setActiveTab("progress")}>
-            Progress
-          </button>
-          <button
-            className={activeTab === "recommendations" ? "active" : ""}
-            onClick={() => setActiveTab("recommendations")}
-          >
-            Recommendations
-          </button>
-        </div>
+    <div className="dashboard-section min-h-screen w-full bg-gradient-to-br from-gray-900 to-black text-white overflow-auto flex">
+      <div className="sidebar w-64 p-6 bg-gray-900">
+        <h2 className="text-2xl font-bold text-blue-300 mb-6">Learning Dashboard</h2>
+        <button
+          className={`sidebar-button px-4 py-2 rounded-full font-semibold mb-4 w-full text-left ${activeScreen === "overview" ? "bg-blue-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+          onClick={() => setActiveScreen("overview")}
+        >
+          Overview
+        </button>
+        <button
+          className={`sidebar-button px-4 py-2 rounded-full font-semibold mb-4 w-full text-left ${activeScreen === "studentData" ? "bg-blue-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+          onClick={() => setActiveScreen("studentData")}
+        >
+          Student Data
+        </button>
       </div>
 
-      {activeTab === "overview" && (
-        <div className="dashboard-content">
-          <div className="stats-overview">
-            <div className="stat-card">
-              <h3>Total Learning Hours</h3>
-              <p className="stat-value">42.5</p>
-              <p className="stat-change positive">+3.5 hrs this week</p>
+      <div className="main-content flex-1 p-6">
+        {activeScreen === "overview" && (
+          <div className="overview-content">
+            <div className="stats-overview grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="stat-card bg-gray-800 p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                <h3 className="text-xl font-semibold">Total Learning Hours</h3>
+                <p className="stat-value text-3xl font-bold mt-2">42.5</p>
+                <p className="stat-change text-green-400 mt-1">+3.5 hrs this week</p>
+              </div>
+              <div className="stat-card bg-gray-800 p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                <h3 className="text-xl font-semibold">Courses Completed</h3>
+                <p className="stat-value text-3xl font-bold mt-2">7</p>
+                <p className="stat-change text-green-400 mt-1">+1 this month</p>
+              </div>
+              <div className="stat-card bg-gray-800 p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                <h3 className="text-xl font-semibold">Average Quiz Score</h3>
+                <p className="stat-value text-3xl font-bold mt-2">83%</p>
+                <p className="stat-change text-green-400 mt-1">+5% improvement</p>
+              </div>
+              <div className="stat-card bg-gray-800 p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                <h3 className="text-xl font-semibold">Learning Streak</h3>
+                <p className="stat-value text-3xl font-bold mt-2">12 days</p>
+                <p className="stat-change mt-1">Keep it up!</p>
+              </div>
             </div>
-            <div className="stat-card">
-              <h3>Courses Completed</h3>
-              <p className="stat-value">7</p>
-              <p className="stat-change positive">+1 this month</p>
-            </div>
-            <div className="stat-card">
-              <h3>Average Quiz Score</h3>
-              <p className="stat-value">83%</p>
-              <p className="stat-change positive">+5% improvement</p>
-            </div>
-            <div className="stat-card">
-              <h3>Learning Streak</h3>
-              <p className="stat-value">12 days</p>
-              <p className="stat-change">Keep it up!</p>
-            </div>
-          </div>
 
-          <div className="chart-container">
-            <h3>Learning Progress Over Time</h3>
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={learningProgressData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="progress" stroke="#10b981" activeDot={{ r: 8 }} name="Progress (%)" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="recent-activity">
-            <h3>Recent Activity</h3>
-            <div className="activity-list">
-              <div className="activity-item">
-                <div className="activity-icon completed">✓</div>
-                <div className="activity-details">
-                  <h4>Completed "Introduction to Algebra"</h4>
-                  <p>2 hours ago</p>
-                </div>
-              </div>
-              <div className="activity-item">
-                <div className="activity-icon quiz">Q</div>
-                <div className="activity-details">
-                  <h4>Scored 95% on "Science Quiz 5"</h4>
-                  <p>Yesterday</p>
-                </div>
-              </div>
-              <div className="activity-item">
-                <div className="activity-icon started">▶</div>
-                <div className="activity-details">
-                  <h4>Started "World History: Ancient Civilizations"</h4>
-                  <p>2 days ago</p>
-                </div>
-              </div>
-              <div className="activity-item">
-                <div className="activity-icon achievement">🏆</div>
-                <div className="activity-details">
-                  <h4>Earned "Consistent Learner" badge</h4>
-                  <p>3 days ago</p>
-                </div>
-              </div>
+            <div className="chart-container mt-8">
+              <h3 className="text-2xl font-bold mb-4">Learning Progress Over Time</h3>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={learningProgressData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="progress" stroke="#10b981" activeDot={{ r: 8 }} name="Progress (%)" />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-        </div>
-      )}
 
-      {activeTab === "progress" && (
-        <div className="dashboard-content">
-          <div className="subject-progress">
-            <h3>Subject Progress</h3>
-            <div className="progress-bars">
-              {subjectProgressData.map((subject, index) => (
-                <div className="subject-progress-item" key={index}>
-                  <div className="subject-info">
-                    <span className="subject-name">{subject.name}</span>
-                    <span className="subject-percentage">{subject.completed}%</span>
+            <div className="recent-activity mt-8">
+              <h3 className="text-2xl font-bold mb-4">Recent Activity</h3>
+              <div className="activity-list space-y-4">
+                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
+                  <div className="activity-icon completed bg-green-500 text-white rounded-full p-2 mr-4">✓</div>
+                  <div className="activity-details">
+                    <h4 className="text-lg font-semibold">Completed "Introduction to Algebra"</h4>
+                    <p className="text-gray-400">2 hours ago</p>
                   </div>
-                  <div className="progress-bar-container">
-                    <div className="progress-bar-fill" style={{ width: `${subject.completed}%` }}></div>
+                </div>
+                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
+                  <div className="activity-icon quiz bg-blue-500 text-white rounded-full p-2 mr-4">Q</div>
+                  <div className="activity-details">
+                    <h4 className="text-lg font-semibold">Scored 95% on "Science Quiz 5"</h4>
+                    <p className="text-gray-400">Yesterday</p>
                   </div>
+                </div>
+                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
+                  <div className="activity-icon started bg-yellow-500 text-white rounded-full p-2 mr-4">▶</div>
+                  <div className="activity-details">
+                    <h4 className="text-lg font-semibold">Started "World History: Ancient Civilizations"</h4>
+                    <p className="text-gray-400">2 days ago</p>
+                  </div>
+                </div>
+                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
+                  <div className="activity-icon achievement bg-purple-500 text-white rounded-full p-2 mr-4">🏆</div>
+                  <div className="activity-details">
+                    <h4 className="text-lg font-semibold">Earned "Consistent Learner" badge</h4>
+                    <p className="text-gray-400">3 days ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeScreen === "studentData" && (
+          <div className="student-data-section">
+            <h3 className="text-2xl font-bold mb-4">Student Profile</h3>
+            <div className="profile-card bg-gray-800 p-6 rounded-xl shadow-lg">
+              {studentData && Object.entries(studentData).map(([key, value], index) => (
+                <div key={index} className="profile-item mb-4">
+                  <h4 className="text-lg font-semibold capitalize">{key.replace(/_/g, ' ')}</h4>
+                  <p className="text-lg mt-2">{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</p>
                 </div>
               ))}
+              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold mt-4">
+                Edit Your Profile
+              </button>
             </div>
           </div>
-
-          <div className="chart-container">
-            <h3>Quiz Performance</h3>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={quizScoresData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis domain={[0, 100]} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="score" fill="#10b981" name="Score (%)" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="skill-mastery">
-            <h3>Skill Mastery</h3>
-            <div className="skill-grid">
-              <div className="skill-card mastered">
-                <h4>Basic Algebra</h4>
-                <p className="skill-status">Mastered</p>
-                <p className="skill-date">Completed: June 15, 2023</p>
-              </div>
-              <div className="skill-card in-progress">
-                <h4>Chemical Reactions</h4>
-                <p className="skill-status">In Progress (75%)</p>
-                <p className="skill-date">Started: July 2, 2023</p>
-              </div>
-              <div className="skill-card mastered">
-                <h4>Essay Writing</h4>
-                <p className="skill-status">Mastered</p>
-                <p className="skill-date">Completed: May 20, 2023</p>
-              </div>
-              <div className="skill-card not-started">
-                <h4>World Geography</h4>
-                <p className="skill-status">Not Started</p>
-                <p className="skill-date">Recommended</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {activeTab === "recommendations" && (
-        <div className="dashboard-content">
-          <div className="recommendations-intro">
-            <h3>Personalized Recommendations</h3>
-            <p>Based on your learning style and progress, we recommend the following resources:</p>
-          </div>
-
-          <div className="recommendation-section">
-            <h4>Recommended for Visual Learners</h4>
-            <div className="recommendation-cards">
-              <div className="recommendation-card">
-                <div className="recommendation-img">
-                  <img src="https://placehold.co/100x80" alt="Course thumbnail" />
-                </div>
-                <div className="recommendation-details">
-                  <h5>Advanced Data Visualization</h5>
-                  <p>Learn to represent complex data through visual elements</p>
-                  <button className="start-btn">Start Learning</button>
-                </div>
-              </div>
-              <div className="recommendation-card">
-                <div className="recommendation-img">
-                  <img src="https://placehold.co/100x80" alt="Course thumbnail" />
-                </div>
-                <div className="recommendation-details">
-                  <h5>Geometry Masterclass</h5>
-                  <p>Visual approach to understanding geometric principles</p>
-                  <button className="start-btn">Start Learning</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="recommendation-section">
-            <h4>Suggested Quizzes</h4>
-            <div className="recommendation-cards">
-              <div className="recommendation-card">
-                <div className="recommendation-img quiz">
-                  <span>Q</span>
-                </div>
-                <div className="recommendation-details">
-                  <h5>Algebra Concepts Quiz</h5>
-                  <p>Test your understanding of algebraic principles</p>
-                  <button className="start-btn">Take Quiz</button>
-                </div>
-              </div>
-              <div className="recommendation-card">
-                <div className="recommendation-img quiz">
-                  <span>Q</span>
-                </div>
-                <div className="recommendation-details">
-                  <h5>Scientific Method Assessment</h5>
-                  <p>Evaluate your knowledge of scientific processes</p>
-                  <button className="start-btn">Take Quiz</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="ai-tutor-section">
-            <h4>AI Tutor Suggestions</h4>
-            <div className="ai-message">
-              <div className="ai-avatar">
-                <img src="https://placehold.co/50x50" alt="AI Tutor" />
-              </div>
-              <div className="ai-content">
-                <p>
-                  Based on your recent quiz results, I notice you might benefit from additional practice with chemical
-                  equations. Would you like me to create some visual exercises to help?
-                </p>
-                <div className="ai-actions">
-                  <button className="ai-action-btn">Yes, please</button>
-                  <button className="ai-action-btn secondary">Not now</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
