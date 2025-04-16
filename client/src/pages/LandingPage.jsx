@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
-import { FiHome, FiStar, FiDollarSign, FiMail, FiBookOpen } from "react-icons/fi";
+import {
+  FiHome,
+  FiStar,
+  FiDollarSign,
+  FiMail,
+  FiBookOpen,
+  FiUser
+} from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-export default function FuturisticAILanding() {
+export default function LandingPage() {
   return (
     <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
       {/* Animated Gradient Background */}
@@ -29,11 +37,28 @@ export default function FuturisticAILanding() {
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center text-blue-300 text-sm">
           <div className="text-lg font-bold text-white">NeuraTutor</div>
           <ul className="flex gap-6">
-            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition"><FiHome size={18} />Home</li>
-            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition"><FiBookOpen size={18} />Quizzes</li>
-            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition"><FiStar size={18} />AI Features</li>
-            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition"><FiDollarSign size={18} />Plans</li>
-            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition"><FiMail size={18} />Help</li>
+            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
+              <FiHome size={18} />
+              Home
+            </li>
+            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
+              <FiBookOpen size={18} />
+              Quizzes
+            </li>
+            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
+              <FiStar size={18} />
+              AI Features
+            </li>
+            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
+              <FiUser size={18} />
+              <Link to="/profile" className="text-blue-300 hover:underline">
+                Profile
+              </Link>
+            </li>
+            <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
+              <FiMail size={18} />
+              Help
+            </li>
           </ul>
         </div>
       </nav>
@@ -46,7 +71,8 @@ export default function FuturisticAILanding() {
           transition={{ duration: 1 }}
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100"
         >
-          Personalized AI Quizzes <br className="hidden sm:block" /> for Smart Learning
+          Personalized AI Quizzes <br className="hidden sm:block" /> for Smart
+          Learning
         </motion.h1>
 
         <motion.p
@@ -55,7 +81,8 @@ export default function FuturisticAILanding() {
           transition={{ delay: 0.3, duration: 1 }}
           className="mt-6 text-lg text-blue-200 max-w-2xl"
         >
-          NeuraTutor creates adaptive quizzes based on your pace and helps clear doubts in real-time with an AI mentor.
+          NeuraTutor creates adaptive quizzes based on your pace and helps clear
+          doubts in real-time with an AI mentor.
         </motion.p>
 
         <div className="mt-10 flex gap-4 flex-wrap justify-center">
@@ -83,17 +110,25 @@ export default function FuturisticAILanding() {
           <div className="flex flex-col items-center bg-white/10 p-6 rounded-lg shadow-lg">
             <FiBookOpen size={40} className="text-blue-300" />
             <h3 className="mt-4 text-xl font-semibold">Adaptive Quizzes</h3>
-            <p className="mt-2 text-blue-200">Quizzes evolve with your progress and knowledge level.</p>
+            <p className="mt-2 text-blue-200">
+              Quizzes evolve with your progress and knowledge level.
+            </p>
           </div>
           <div className="flex flex-col items-center bg-white/10 p-6 rounded-lg shadow-lg">
             <FiStar size={40} className="text-blue-300" />
-            <h3 className="mt-4 text-xl font-semibold">AI-Powered Assistance</h3>
-            <p className="mt-2 text-blue-200">Ask doubts and get instant explanations tailored just for you.</p>
+            <h3 className="mt-4 text-xl font-semibold">
+              AI-Powered Assistance
+            </h3>
+            <p className="mt-2 text-blue-200">
+              Ask doubts and get instant explanations tailored just for you.
+            </p>
           </div>
           <div className="flex flex-col items-center bg-white/10 p-6 rounded-lg shadow-lg">
             <FiDollarSign size={40} className="text-blue-300" />
             <h3 className="mt-4 text-xl font-semibold">Flexible Plans</h3>
-            <p className="mt-2 text-blue-200">Choose from free or premium plans that suit your learning needs.</p>
+            <p className="mt-2 text-blue-200">
+              Choose from free or premium plans that suit your learning needs.
+            </p>
           </div>
         </div>
       </section>
