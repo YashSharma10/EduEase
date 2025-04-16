@@ -1,280 +1,10 @@
-// import { useState } from "react";
-// import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
-// import { Label } from "@/components/ui/label";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-
-// const learningStyleOptions = [
-//   "Visual (Images, diagrams)",
-//   "Text (Notes, reading)",
-// ];
-
-// const classGrades = [
-//   "Class 1",
-//   "Class 2",
-//   "Class 3",
-//   "Class 4",
-//   "Class 5",
-//   "Class 6",
-//   "Class 7",
-//   "Class 8",
-//   "Class 9",
-//   "Class 10",
-//   "Class 11",
-//   "Class 12",
-//   "College 1st Year",
-//   "College 2nd Year",
-//   "College 3rd Year",
-//   "College 4th Year",
-// ];
-
-// const Profile = () => {
-//   const [formData, setFormData] = useState({
-//     fullName: "",
-//     age: "",
-//     classGrade: "Class 1",
-//     learningStyle: [],
-//     learningPace: "",
-//     careerGoal: "",
-//     subjectInterest: "",
-//     studyDuration: "",
-//     frequency: "",
-//     topicsDifficulty: "",
-//     voiceLearning: "",
-//     boardCurriculum: "",
-//     preferredFormat: "",
-//   });
-
-//   const [showMore, setShowMore] = useState(false);
-
-//   const handleChange = (e) => {
-//     const { name, value, type, checked } = e.target;
-
-//     if (name === "learningStyle") {
-//       setFormData((prev) => ({
-//         ...prev,
-//         learningStyle: checked
-//           ? [...prev.learningStyle, value]
-//           : prev.learningStyle.filter((style) => style !== value),
-//       }));
-//     } else {
-//       setFormData((prev) => ({
-//         ...prev,
-//         [name]: value,
-//       }));
-//     }
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const mandatoryFields = [
-//       "fullName",
-//       "age",
-//       "classGrade",
-//       "learningStyle",
-//       "learningPace",
-//       "careerGoal",
-//     ];
-//     for (let field of mandatoryFields) {
-//       if (
-//         !formData[field] ||
-//         (field === "learningStyle" && formData.learningStyle.length === 0)
-//       ) {
-//         alert("Please fill all mandatory fields.");
-//         return;
-//       }
-//     }
-
-//     try {
-//       const response = await fetch("http://localhost:5000/api/save-profile", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(formData),
-//       });
-//       response.ok ? alert("Profile saved!") : alert("Failed to save.");
-//     } catch (err) {
-//       console.error("Save error:", err);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-4xl mx-auto mt-8">
-//       <Card className="shadow-lg">
-//         <CardHeader>
-//           <CardTitle className="text-2xl font-bold text-blue-700">
-//             Student Profile
-//           </CardTitle>
-//         </CardHeader>
-//         <CardContent>
-//           <form onSubmit={handleSubmit} className="space-y-6">
-//             <div>
-//               <Label>Full Name *</Label>
-//               <Input
-//                 name="fullName"
-//                 value={formData.fullName}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-
-//             <div>
-//               <Label>Age *</Label>
-//               <Input
-//                 type="number"
-//                 name="age"
-//                 min="5"
-//                 max="25"
-//                 value={formData.age}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-
-//             <div>
-//               <Label>Class / Grade *</Label>
-//               <Select
-//                 value={formData.classGrade}
-//                 onValueChange={(value) =>
-//                   setFormData((prev) => ({ ...prev, classGrade: value }))
-//                 }
-//               >
-//                 <SelectTrigger>
-//                   <SelectValue placeholder="Select grade" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   {classGrades.map((grade) => (
-//                     <SelectItem key={grade} value={grade}>
-//                       {grade}
-//                     </SelectItem>
-//                   ))}
-//                 </SelectContent>
-//               </Select>
-//             </div>
-
-//             <div>
-//               <Label>Learning Style *</Label>
-//               <div className="flex gap-4 flex-wrap mt-2">
-//                 {learningStyleOptions.map((style) => (
-//                   <div key={style} className="flex items-center gap-2">
-//                     <Checkbox
-//                       checked={formData.learningStyle.includes(style)}
-//                       onCheckedChange={(checked) =>
-//                         handleChange({
-//                           target: {
-//                             name: "learningStyle",
-//                             value: style,
-//                             checked,
-//                           },
-//                         })
-//                       }
-//                     />
-//                     <span>{style}</span>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-
-//             <div>
-//               <Label>Learning Pace *</Label>
-//               <RadioGroup
-//                 value={formData.learningPace}
-//                 onValueChange={(val) =>
-//                   setFormData((prev) => ({ ...prev, learningPace: val }))
-//                 }
-//               >
-//                 {[
-//                   "Fast Learner",
-//                   "Intermediate Learner",
-//                   "Slow Learner",
-//                   "Variable Learner",
-//                 ].map((pace) => (
-//                   <div key={pace} className="flex items-center space-x-2">
-//                     <RadioGroupItem value={pace} id={pace} />
-//                     <Label htmlFor={pace}>{pace}</Label>
-//                   </div>
-//                 ))}
-//               </RadioGroup>
-//             </div>
-
-//             <div>
-//               <Label>Career Goal *</Label>
-//               <Input
-//                 name="careerGoal"
-//                 value={formData.careerGoal}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-
-//             {/* Show More Section */}
-//             <div className="text-right">
-//               <Button
-//                 type="button"
-//                 variant="link"
-//                 onClick={() => setShowMore((prev) => !prev)}
-//               >
-//                 {showMore ? "Hide Optional Fields" : "Show More"}
-//               </Button>
-//             </div>
-
-//             {showMore && (
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 {[
-//                   { name: "subjectInterest", label: "Subject Interest" },
-//                   { name: "studyDuration", label: "Study Duration" },
-//                   {
-//                     name: "frequency",
-//                     label: "Frequency of Learning Sessions",
-//                   },
-//                   { name: "topicsDifficulty", label: "Topics Difficulty" },
-//                   { name: "voiceLearning", label: "Voice Learning" },
-//                   { name: "boardCurriculum", label: "Board and Curriculum" },
-//                   { name: "preferredFormat", label: "Preferred Format" },
-//                 ].map((field) => (
-//                   <div key={field.name}>
-//                     <Label>{field.label}</Label>
-//                     <Input
-//                       name={field.name}
-//                       value={formData[field.name]}
-//                       onChange={handleChange}
-//                     />
-//                   </div>
-//                 ))}
-//               </div>
-//             )}
-
-//             <div className="pt-4">
-//               <Button type="submit" className="w-full">
-//                 Save Profile
-//               </Button>
-//             </div>
-//           </form>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// };
-
-// export default Profile;
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/ui/common/header";
-
+import { FaUser, FaGraduationCap, FaBook, FaRunning, FaBriefcase, FaEye, FaPen, FaClock, FaCalendarAlt, FaExclamationTriangle, FaMicrophone, FaChalkboard, FaFileAlt } from "react-icons/fa";
 
 const learningStyleOptions = [
   "Visual (Images, diagrams)",
@@ -356,16 +86,6 @@ const Profile = () => {
         return;
       }
     }
-    // try {
-    //   const response = await fetch("http://localhost:5000/api/save-profile", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(formData),
-    //   });
-    //   response.ok ? console.log(response) : alert("Failed to save.");
-    // } catch (err) {
-    //   console.error("Save error:", err);
-    // }
 
     try {
       const response = await axios.post(
@@ -421,25 +141,29 @@ const Profile = () => {
           className="bg-white/5 backdrop-blur-md rounded-xl shadow-md p-6 space-y-6 text-white"
         >
           <div>
-            <label className="block font-medium">Full Name *</label>
+            <label className="block font-medium flex items-center">
+              <FaUser className="mr-2" /> Full Name *
+            </label>
             <input
               type="text"
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label className="block font-medium">Age *</label>
+            <label className="block font-medium flex items-center">
+              <FaGraduationCap className="mr-2" /> Age *
+            </label>
             <input
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               min="5"
               max="25"
               required
@@ -447,12 +171,14 @@ const Profile = () => {
           </div>
 
           <div>
-            <label className="block font-medium">Class / Grade *</label>
+            <label className="block font-medium flex items-center">
+              <FaBook className="mr-2" /> Class / Grade *
+            </label>
             <select
               name="classGrade"
               value={formData.classGrade}
               onChange={handleChange}
-              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {classGrades.map((grade) => (
                 <option key={grade} value={grade}>
@@ -463,7 +189,9 @@ const Profile = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Learning Style *</label>
+            <label className="block font-medium mb-1 flex items-center">
+              <FaEye className="mr-2" /> Learning Style *
+            </label>
             <div className="grid grid-cols-2 gap-2">
               {learningStyleOptions.map((style) => (
                 <label key={style} className="flex items-center gap-2">
@@ -473,15 +201,18 @@ const Profile = () => {
                     value={style}
                     checked={formData.learningStyle.includes(style)}
                     onChange={handleChange}
+                    className="form-checkbox h-5 w-5 text-blue-500"
                   />
-                  {style}
+                  <span className="text-white">{style}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block font-medium">Learning Pace *</label>
+            <label className="block font-medium flex items-center">
+              <FaRunning className="mr-2" /> Learning Pace *
+            </label>
             <div className="flex flex-wrap gap-4 mt-2">
               {[
                 "Fast Learner",
@@ -496,21 +227,24 @@ const Profile = () => {
                     value={pace}
                     checked={formData.learningPace === pace}
                     onChange={handleChange}
+                    className="form-radio h-5 w-5 text-blue-500"
                   />
-                  {pace}
+                  <span className="text-white">{pace}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block font-medium">Career Goal *</label>
+            <label className="block font-medium flex items-center">
+              <FaBriefcase className="mr-2" /> Career Goal *
+            </label>
             <input
               type="text"
               name="careerGoal"
               value={formData.careerGoal}
               onChange={handleChange}
-              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2"
+              className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -518,17 +252,48 @@ const Profile = () => {
           <div className="text-right">
             <button
               type="button"
-              className="text-blue-300 underline"
+              className="text-blue-300 underline flex items-center hover:text-blue-400 transition-colors"
               onClick={() => setShowMore(!showMore)}
             >
-              {showMore ? "Hide Optional Fields" : "Show More"}
+              {showMore ? "Hide Optional Fields" : "Show More"} <FaPen className="ml-1" />
             </button>
           </div>
+
+          {showMore && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { name: "subjectInterest", label: "Subject Interest", icon: <FaBook /> },
+                { name: "studyDuration", label: "Study Duration", icon: <FaClock /> },
+                {
+                  name: "frequency",
+                  label: "Frequency of Learning Sessions",
+                  icon: <FaCalendarAlt />,
+                },
+                { name: "topicsDifficulty", label: "Topics Difficulty", icon: <FaExclamationTriangle /> },
+                { name: "voiceLearning", label: "Voice Learning", icon: <FaMicrophone /> },
+                { name: "boardCurriculum", label: "Board and Curriculum", icon: <FaChalkboard /> },
+                { name: "preferredFormat", label: "Preferred Format", icon: <FaFileAlt /> },
+              ].map((field) => (
+                <div key={field.name}>
+                  <label className="block font-medium flex items-center">
+                    {field.icon} {field.label}
+                  </label>
+                  <input
+                    type="text"
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    className="mt-1 w-full bg-black/40 text-white border border-white/10 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
 
           <div>
             <button
               type="submit"
-              className="w-full mt-4 bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 font-semibold text-black py-3 rounded-full"
+              className="w-full mt-4 bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 font-semibold text-black py-3 rounded-full transition-transform transform hover:scale-105"
             >
               Save Profile
             </button>

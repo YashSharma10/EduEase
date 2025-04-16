@@ -13,6 +13,18 @@ import {
   Line,
 } from "recharts";
 import Header from "@/components/ui/common/header";
+import {
+  FaUser,
+  FaCalendarAlt,
+  FaGraduationCap,
+  FaBook,
+  FaIdCard,
+  FaEye,
+  FaChalkboardTeacher,
+  FaMicrophoneAlt,
+  FaFileAlt,
+  FaBriefcase,
+} from 'react-icons/fa'; // Import icons
 
 // Mock data for the charts
 const learningProgressData = [
@@ -26,10 +38,19 @@ const learningProgressData = [
 
 // Static data to be used if API data is not available
 const staticStudentData = {
-  name: "John Doe",
+  // id: "67fb756e64e92ea59099722",
+  fullName: "Yash Sharma",
   age: 20,
-  grade: "A",
-  courses: ["Math", "Science", "History"],
+  classGrade: "Class 9",
+  learningStyle: "Visual (Images, diagrams)",
+  learningPace: "Fast Learner",
+  subjectInterest: "Science",
+  studyDuration: "2 hours",
+  topicsDifficulty: "Moderate",
+  boardCurriculum: "CBSE",
+  careerGoal: "Developer",
+  preferredFormat: "Video",
+  // v: 0 // Example of a field you want to exclude
 };
 
 const Dashboard = () => {
@@ -179,19 +200,35 @@ const Dashboard = () => {
         )}
 
         {activeScreen === "studentData" && (
-          <div className="student-data-section">
-            <div className="profile-card bg-gray-800 p-6 rounded-xl shadow-lg relative">
-              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold absolute top-4 right-4 "onClick={() => navigate('/profile')}>
+          <div className="student-data-section p-6">
+            <div className="profile-card bg-gray-800 p-8 rounded-xl shadow-lg relative text-white">
+              <button
+                className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold absolute top-4 right-4"
+                onClick={() => navigate('/profile')}
+              >
                 Edit
               </button>
-              <h3 className="text-2xl font-bold mb-4">Student Profile</h3>
-              <div className="profile-details grid grid-cols-1 md:grid-cols-2 gap-4">
-                {studentData && Object.entries(studentData).map(([key, value], index) => (
-                  <div key={index} className="profile-item">
-                    <h4 className="text-lg font-semibold capitalize">{key.replace(/_/g, ' ')}</h4>
-                    <p className="text-lg mt-2">{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</p>
-                  </div>
-                ))}
+              <h3 className="text-3xl font-bold mb-6 text-center">Student Profile</h3>
+              <div className="profile-details grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Object.entries(studentData)
+                  .filter(([key]) => key !== 'id' && key !== 'v') // Filter out 'id' and 'v' fields
+                  .map(([key, value], index) => (
+                    <div key={index} className="profile-item flex items-center p-4 bg-gray-900 rounded-lg shadow-inner">
+                      {key === 'fullName' && <FaUser className="mr-3 text-blue-300" />}
+                      {key === 'age' && <FaCalendarAlt className="mr-3 text-blue-300" />}
+                      {key === 'classGrade' && <FaGraduationCap className="mr-3 text-blue-300" />}
+                      {key === 'learningStyle' && <FaEye className="mr-3 text-blue-300" />}
+                      {key === 'learningPace' && <FaChalkboardTeacher className="mr-3 text-blue-300" />}
+                      {key === 'subjectInterest' && <FaBook className="mr-3 text-blue-300" />}
+                      {key === 'careerGoal' && <FaBriefcase className="mr-3 text-blue-300" />}
+                      {key === 'preferredFormat' && <FaMicrophoneAlt className="mr-3 text-blue-300" />}
+                      {key === 'topicsDifficulty' && <FaFileAlt className="mr-3 text-blue-300" />}
+                      <div>
+                        <h4 className="text-lg font-semibold capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</h4>
+                        <p className="text-lg mt-2 text-gray-300">{value}</p>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
