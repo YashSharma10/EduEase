@@ -37,9 +37,9 @@ def generate_quiz(topic, level):
 #         print(chunk["message"]["content"], end="", flush=True)
 #     return res['message']['content']
 
-def ask_question(question):
+def ask_question(question,savequestion):
     res = ollama.chat(
         model='llama3.2',
-        messages=[{'role': 'user', 'content': f"Answer this question clearly: {question}"}]
+        messages=[{'role': 'user', 'content': f"this is my question :{savequestion}  now answer this clearly  why {question}"}]
     )
     return res['message']['content']

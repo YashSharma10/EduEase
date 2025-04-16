@@ -94,6 +94,7 @@ const EduBot = () => {
     try {
       const res = await axios.post('http://localhost:5001/api/chat/ask', {
         question: input,
+        savequestion:localStorage.getItem("question")
       });
 
       const botMessage = { sender: 'bot', text: res.data.answer };
@@ -119,7 +120,7 @@ const EduBot = () => {
       <div className="edu-bot-header text-center mb-6 w-full">
         <h2 className="text-3xl font-bold text-blue-300 my-10">Edu Bot</h2>
       </div>
-
+      {localStorage.getItem("question") && (<div>{localStorage.getItem("question")}</div>)}
       <div className="edu-bot-messages w-full max-w-3xl bg-gray-800/50 p-3 md:p-8 rounded-xl shadow-2xl border border-gray-700 backdrop-blur-sm flex-1 overflow-y-auto custom-scrollbar mb-2">
         {messages.map((msg, index) => (
           <div

@@ -58,10 +58,15 @@ const Dashboard = () => {
   const [studentData, setStudentData] = useState(staticStudentData);
   const [recentQuizData, setRecentQuizData] = useState([]);
   const [quizStats, setQuizStats] = useState(null);
+  const [wrongAnswers, setWrongAnswers] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  function savequestion(ans) {
+    localStorage.setItem("question",ans.question)
+    navigate("/bot");
+  }
   const calculateQuizStats = (quizData) => {
     if (!quizData || quizData.length === 0) return null;
 
@@ -387,14 +392,16 @@ const Dashboard = () => {
                           </ul>
                         </div>
 
-                        <div className="wrong-answers bg-gray-700 p-3 rounded-lg">
+                        <div className="wrong-answers bg-gray-700 p-3 rounded-lg cursor-pointer" >
                           <div className="flex items-center text-red-400 mb-2">
                             <FaTimesCircle className="mr-2" />
                             <h5 className="font-medium">Wrong: {quiz.wrongAnswers?.length || 0}</h5>
                           </div>
                           <ul className="space-y-1 max-h-32 overflow-y-auto">
                             {quiz.wrongAnswers?.map((ans, idx) => (
-                              <li key={idx} className="text-sm text-gray-300">
+                              <li key={idx} className="text-sm text-gray-300" onClick={()=>savequestion(ans)
+                              }>
+                                
                                 <span className="font-medium">Q{idx + 1}:</span> {ans.selectedAnswer}
                               </li>
                             ))}

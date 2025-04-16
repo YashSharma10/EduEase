@@ -5,7 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import QuizPage from "./pages/QuizPage";
 import Dashboard from "./pages/dashboard";
 import EduBot from "./pages/bot";
-import JavaCoursesPage from "./pages/JavaCoursesPage";
+import JavaCoursesPage from "./pages/CoursesPage";
 import Footer from "./components/ui/common/Footer";
 
 const App = () => {

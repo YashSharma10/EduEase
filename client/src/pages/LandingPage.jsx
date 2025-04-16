@@ -181,7 +181,7 @@ export default function LandingPage() {
 
       {/* Header Component */}
       <Header />
-      <GoogleAuthPage/>
+      {/* <GoogleAuthPage/> */}
       <div className="relative top-38 left-72">
         <svg
           width="48"

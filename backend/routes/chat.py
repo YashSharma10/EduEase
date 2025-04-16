@@ -7,7 +7,9 @@ chat_bp = Blueprint('chat', __name__)
 def ask():
     data = request.json
     question = data.get('question')
+    savequestion = data.get('savequestion')
+    print("save",savequestion)
     if not question:
         return {'error': 'Question is required'}, 400
-    response = ask_question(question)
+    response = ask_question(question,savequestion)
     return jsonify({'answer': response})
