@@ -38,7 +38,6 @@ const learningProgressData = [
 
 // Static data to be used if API data is not available
 const staticStudentData = {
-  // id: "67fb756e64e92ea59099722",
   fullName: "Yash Sharma",
   age: 20,
   classGrade: "Class 9",
@@ -50,33 +49,39 @@ const staticStudentData = {
   boardCurriculum: "CBSE",
   careerGoal: "Developer",
   preferredFormat: "Video",
-  // v: 0 // Example of a field you want to exclude
 };
 
 const Dashboard = () => {
   const [activeScreen, setActiveScreen] = useState("overview");
   const [studentData, setStudentData] = useState(staticStudentData);
+  const [recentQuizData, setRecentQuizData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchStudentData = async () => {
+    const fetchData = async () => {
       try {
         const profileId = localStorage.getItem('userid'); // Fetch user ID from local storage
         if (!profileId) {
           throw new Error('User ID not found in local storage');
         }
 
-        const response = await fetch(`http://localhost:5000/api/get-profile/${profileId}`); // Replace with your actual API endpoint
-        console.log(profileId); // Log the response for debugging
-        if (!response.ok) {
+        const studentResponse = await fetch(`http://localhost:5000/api/get-profile/${profileId}`);
+        if (!studentResponse.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        setStudentData(data);
+        const studentData = await studentResponse.json();
+        setStudentData(studentData);
+
+        const quizResponse = await fetch(`http://localhost:5000/api/get-recent-activity`);
+        if (!quizResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const quizData = await quizResponse.json();
+        setRecentQuizData(quizData);
       } catch (error) {
-        console.error("Error fetching student data:", error);
+        console.error("Error fetching data:", error);
         if (error.message === 'User ID not found in local storage') {
           navigate('/profile'); // Redirect to the profile page
         } else {
@@ -87,7 +92,7 @@ const Dashboard = () => {
       }
     };
 
-    fetchStudentData();
+    fetchData();
   }, [navigate]);
 
   if (loading) {
@@ -166,34 +171,26 @@ const Dashboard = () => {
             <div className="recent-activity mt-8">
               <h3 className="text-2xl font-bold mb-4">Recent Activity</h3>
               <div className="activity-list space-y-4">
-                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
-                  <div className="activity-icon completed bg-green-500 text-white rounded-full p-2 mr-4">✓</div>
-                  <div className="activity-details">
-                    <h4 className="text-lg font-semibold">Completed "Introduction to Algebra"</h4>
-                    <p className="text-gray-400">2 hours ago</p>
+                {recentQuizData.map((activity, index) => (
+                  <div key={index} className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
+                    <div className={`activity-icon ${activity.score > 0 ? 'completed bg-green-500' : 'wrong bg-red-500'} text-white rounded-full p-2 mr-4`}>
+                      {activity.score > 0 ? '✓' : '✗'}
+                    </div>
+                    <div className="activity-details">
+                      <h4 className="text-lg font-semibold">{activity.score > 0 ? "Correct Answers" : "Wrong Answers"}</h4>
+                      <ul>
+                        {activity.score > 0
+                          ? activity.correctAnswers.map((answer, idx) => (
+                              <li key={idx}>{answer.question}: {answer.selectedAnswer}</li>
+                            ))
+                          : activity.wrongAnswers.map((answer, idx) => (
+                              <li key={idx}>{answer.question}: {answer.selectedAnswer}</li>
+                            ))}
+                      </ul>
+                      <p className="text-gray-400">{new Date(activity.timestamp.$date).toLocaleString()}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
-                  <div className="activity-icon quiz bg-blue-500 text-white rounded-full p-2 mr-4">Q</div>
-                  <div className="activity-details">
-                    <h4 className="text-lg font-semibold">Scored 95% on "Science Quiz 5"</h4>
-                    <p className="text-gray-400">Yesterday</p>
-                  </div>
-                </div>
-                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
-                  <div className="activity-icon started bg-yellow-500 text-white rounded-full p-2 mr-4">▶</div>
-                  <div className="activity-details">
-                    <h4 className="text-lg font-semibold">Started "World History: Ancient Civilizations"</h4>
-                    <p className="text-gray-400">2 days ago</p>
-                  </div>
-                </div>
-                <div className="activity-item flex items-center transition-transform duration-300 hover:scale-105">
-                  <div className="activity-icon achievement bg-purple-500 text-white rounded-full p-2 mr-4">🏆</div>
-                  <div className="activity-details">
-                    <h4 className="text-lg font-semibold">Earned "Consistent Learner" badge</h4>
-                    <p className="text-gray-400">3 days ago</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
