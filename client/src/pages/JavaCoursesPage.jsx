@@ -1,3 +1,4 @@
+import Header from '@/components/ui/common/header';
 import React from 'react';
 
 const javaCourses = [
@@ -54,9 +55,25 @@ const javaCourses = [
 export default function JavaCoursesPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-4xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500">
+      <Header/>
+      <h1 className="text-4xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500 my-15">
         Top Java Courses for 2025
       </h1>
+      <div className="w-full max-w-xl mx-auto mb-8 flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Enter a topic (e.g., Physics, History)"
+              className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              // value={topicInput}
+              // onChange={(e) => setTopicInput(e.target.value)}
+            />
+            <button
+              // onClick={handleTopicSubmit}
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 text-white font-semibold"
+            >
+              Generate
+            </button>
+          </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {javaCourses.map((course, index) => (
           <a
