@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import QuizPage from "./pages/QuizPage";
 import Dashboard from "./pages/dashboard";
 import EduBot from "./pages/bot";
+import JavaCoursesPage from "./pages/JavaCoursesPage";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/bot" element={<EduBot />} />
+        <Route path="/course" element={<JavaCoursesPage/>} />
       </Routes>
   );
 };
