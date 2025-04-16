@@ -1,13 +1,13 @@
 import { FiBookOpen, FiUser, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
+import logo from "../../../assets/logo.png";
 export default function Header() {
   return (
     <nav className="fixed top-0 left-0 w-full z-20 backdrop-blur-md bg-white/5 border-b border-white/10">
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center text-blue-300 text-sm">
         {/* Updated this line */}
-        <Link to="/" className="text-lg font-bold text-white hover:underline">
-          EduEase
+        <Link to="/" className="text-lg font-bold text-white hover:underline ">
+        <img src={logo} style={{ height: '40px' }} />
         </Link>
 
         <ul className="flex gap-6">
