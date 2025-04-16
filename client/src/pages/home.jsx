@@ -1,8 +1,20 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ArrowRight,
+  BookOpen,
+  Brain,
+  MessageSquare,
+  BarChart3,
+  CheckCircle,
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Brain, MessageSquare, BarChart3, CheckCircle } from "lucide-react";
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 
 function HomePage() {
   return (
@@ -15,13 +27,22 @@ function HomePage() {
             <span className="text-xl font-bold">eduTutor</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <Link to="#features" className="text-sm font-medium hover:text-emerald-600 transition-colors">
+            <Link
+              to="#features"
+              className="text-sm font-medium hover:text-emerald-600 transition-colors"
+            >
               Features
             </Link>
-            <Link to="#how-it-works" className="text-sm font-medium hover:text-emerald-600 transition-colors">
+            <Link
+              to="#how-it-works"
+              className="text-sm font-medium hover:text-emerald-600 transition-colors"
+            >
               How It Works
             </Link>
-            <Link to="#testimonials" className="text-sm font-medium hover:text-emerald-600 transition-colors">
+            <Link
+              to="#testimonials"
+              className="text-sm font-medium hover:text-emerald-600 transition-colors"
+            >
               Testimonials
             </Link>
           </nav>
@@ -40,14 +61,18 @@ function HomePage() {
           <div className="container flex flex-col md:flex-row items-center gap-8 md:gap-16">
             <div className="flex-1 space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Learn Smarter with <span className="text-emerald-600">Personalized</span> Education
+                Learn Smarter with{" "}
+                <span className="text-emerald-600">Personalized</span> Education
               </h1>
               <p className="text-lg text-gray-600 max-w-md">
-                Discover your unique learning style and get tailored lessons, quizzes, and AI assistance to accelerate
-                your learning journey.
+                Discover your unique learning style and get tailored lessons,
+                quizzes, and AI assistance to accelerate your learning journey.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+                <Button
+                  size="lg"
+                  className="bg-emerald-600 hover:bg-emerald-700"
+                >
                   Start Learning Quiz <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button variant="outline" size="lg">
@@ -64,7 +89,9 @@ function HomePage() {
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-emerald-600" />
-                  <span className="font-medium">Personalized for your learning style</span>
+                  <span className="font-medium">
+                    Personalized for your learning style
+                  </span>
                 </div>
               </div>
             </div>
@@ -75,9 +102,12 @@ function HomePage() {
         <section id="features" className="py-20 bg-white">
           <div className="container">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4">Unlock Your Learning Potential</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                Unlock Your Learning Potential
+              </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Our platform adapts to your unique learning style, providing personalized resources and support.
+                Our platform adapts to your unique learning style, providing
+                personalized resources and support.
               </p>
             </div>
 
@@ -87,7 +117,8 @@ function HomePage() {
                   <Brain className="h-10 w-10 text-emerald-600 mb-2" />
                   <CardTitle>Learning Style Assessment</CardTitle>
                   <CardDescription>
-                    Discover your unique learning style through our comprehensive onboarding quiz.
+                    Discover your unique learning style through our
+                    comprehensive onboarding quiz.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -113,7 +144,8 @@ function HomePage() {
                   <BookOpen className="h-10 w-10 text-emerald-600 mb-2" />
                   <CardTitle>Personalized Content</CardTitle>
                   <CardDescription>
-                    Get lessons and quizzes tailored to your specific learning preferences.
+                    Get lessons and quizzes tailored to your specific learning
+                    preferences.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -139,7 +171,8 @@ function HomePage() {
                   <MessageSquare className="h-10 w-10 text-emerald-600 mb-2" />
                   <CardTitle>AI Doubt Solving</CardTitle>
                   <CardDescription>
-                    Get instant help from our AI tutor that understands your learning style.
+                    Get instant help from our AI tutor that understands your
+                    learning style.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -165,7 +198,8 @@ function HomePage() {
                   <BarChart3 className="h-10 w-10 text-emerald-600 mb-2" />
                   <CardTitle>Progress Tracking</CardTitle>
                   <CardDescription>
-                    Monitor your learning journey with comprehensive analytics and insights.
+                    Monitor your learning journey with comprehensive analytics
+                    and insights.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -195,7 +229,8 @@ function HomePage() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">How eduTutor Works</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Our simple 4-step process helps you learn more effectively and efficiently.
+                Our simple 4-step process helps you learn more effectively and
+                efficiently.
               </p>
             </div>
 
@@ -204,31 +239,40 @@ function HomePage() {
                 {
                   step: 1,
                   title: "Take the Quiz",
-                  description: "Complete our learning style assessment to discover how you learn best.",
+                  description:
+                    "Complete our learning style assessment to discover how you learn best.",
                   icon: Brain,
                 },
                 {
                   step: 2,
                   title: "Get Recommendations",
-                  description: "Receive personalized lesson and quiz recommendations based on your profile.",
+                  description:
+                    "Receive personalized lesson and quiz recommendations based on your profile.",
                   icon: BookOpen,
                 },
                 {
                   step: 3,
                   title: "Learn & Practice",
-                  description: "Study with content optimized for your learning style and practice with quizzes.",
+                  description:
+                    "Study with content optimized for your learning style and practice with quizzes.",
                   icon: MessageSquare,
                 },
                 {
                   step: 4,
                   title: "Track Progress",
-                  description: "Monitor your improvement and adjust your learning path as needed.",
+                  description:
+                    "Monitor your improvement and adjust your learning path as needed.",
                   icon: BarChart3,
                 },
               ].map((item) => (
-                <div key={item.step} className="flex flex-col items-center text-center">
+                <div
+                  key={item.step}
+                  className="flex flex-col items-center text-center"
+                >
                   <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
-                    <span className="text-xl font-bold text-emerald-600">{item.step}</span>
+                    <span className="text-xl font-bold text-emerald-600">
+                      {item.step}
+                    </span>
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                   <p className="text-gray-600">{item.description}</p>
@@ -251,7 +295,8 @@ function HomePage() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">What Our Learners Say</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Hear from students who have transformed their learning experience with eduTutor.
+                Hear from students who have transformed their learning
+                experience with eduTutor.
               </p>
             </div>
 
@@ -287,9 +332,13 @@ function HomePage() {
                         alt={testimonial.name}
                         className="w-20 h-20 rounded-full mb-4"
                       />
-                      <p className="text-gray-700 italic mb-4">"{testimonial.quote}"</p>
+                      <p className="text-gray-700 italic mb-4">
+                        "{testimonial.quote}"
+                      </p>
                       <h4 className="font-semibold">{testimonial.name}</h4>
-                      <p className="text-sm text-gray-500">{testimonial.role}</p>
+                      <p className="text-sm text-gray-500">
+                        {testimonial.role}
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -301,11 +350,18 @@ function HomePage() {
         {/* CTA Section */}
         <section className="py-16 bg-emerald-600 text-white">
           <div className="container text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Learning Experience?</h2>
+            <h2 className="text-3xl font-bold mb-4">
+              Ready to Transform Your Learning Experience?
+            </h2>
             <p className="max-w-2xl mx-auto mb-8">
-              Take the first step toward personalized education tailored to your unique learning style.
+              Take the first step toward personalized education tailored to your
+              unique learning style.
             </p>
-            <Button size="lg" variant="secondary" className="bg-white text-emerald-600 hover:bg-gray-100">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-white text-emerald-600 hover:bg-gray-100"
+            >
               Start Your Learning Quiz Now
             </Button>
           </div>
@@ -320,22 +376,34 @@ function HomePage() {
               <h3 className="font-semibold text-white mb-4">eduTutor</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Our Team
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Contact
                   </Link>
                 </li>
@@ -345,22 +413,34 @@ function HomePage() {
               <h3 className="font-semibold text-white mb-4">Resources</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Learning Guides
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Webinars
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     FAQ
                   </Link>
                 </li>
@@ -370,22 +450,34 @@ function HomePage() {
               <h3 className="font-semibold text-white mb-4">Legal</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Cookie Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     GDPR
                   </Link>
                 </li>
@@ -395,22 +487,34 @@ function HomePage() {
               <h3 className="font-semibold text-white mb-4">Connect</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Twitter
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     LinkedIn
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Facebook
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-emerald-400 transition-colors">
+                  <Link
+                    to="#"
+                    className="hover:text-emerald-400 transition-colors"
+                  >
                     Instagram
                   </Link>
                 </li>

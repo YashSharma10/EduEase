@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils"  // Using the alias you set up
+import { cn } from "@/lib/utils"
 
 function Card({
   className,
