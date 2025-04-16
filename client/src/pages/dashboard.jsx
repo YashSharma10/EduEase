@@ -1,6 +1,5 @@
-"use client"
-
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -37,16 +36,18 @@ const Dashboard = () => {
   const [studentData, setStudentData] = useState(staticStudentData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const profileId = localStorage.getItem('profileId'); // Fetch user ID from local storage
+        const profileId = localStorage.getItem('userid'); // Fetch user ID from local storage
         if (!profileId) {
           throw new Error('User ID not found in local storage');
         }
 
         const response = await fetch(`http://localhost:5000/api/get-profile/${profileId}`); // Replace with your actual API endpoint
+        console.log(profileId); // Log the response for debugging
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -54,14 +55,18 @@ const Dashboard = () => {
         setStudentData(data);
       } catch (error) {
         console.error("Error fetching student data:", error);
-        setError(error);
+        if (error.message === 'User ID not found in local storage') {
+          navigate('/profile'); // Redirect to the profile page
+        } else {
+          setError(error);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchStudentData();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return <div className="loading-screen flex items-center justify-center h-screen text-white">Loading...</div>;
@@ -167,17 +172,19 @@ const Dashboard = () => {
 
         {activeScreen === "studentData" && (
           <div className="student-data-section">
-            <h3 className="text-2xl font-bold mb-4">Student Profile</h3>
-            <div className="profile-card bg-gray-800 p-6 rounded-xl shadow-lg">
-              {studentData && Object.entries(studentData).map(([key, value], index) => (
-                <div key={index} className="profile-item mb-4">
-                  <h4 className="text-lg font-semibold capitalize">{key.replace(/_/g, ' ')}</h4>
-                  <p className="text-lg mt-2">{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</p>
-                </div>
-              ))}
-              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold mt-4">
-                Edit Your Profile
+            <div className="profile-card bg-gray-800 p-6 rounded-xl shadow-lg relative">
+              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold absolute top-4 right-4">
+                Edit
               </button>
+              <h3 className="text-2xl font-bold mb-4">Student Profile</h3>
+              <div className="profile-details grid grid-cols-1 md:grid-cols-2 gap-4">
+                {studentData && Object.entries(studentData).map(([key, value], index) => (
+                  <div key={index} className="profile-item">
+                    <h4 className="text-lg font-semibold capitalize">{key.replace(/_/g, ' ')}</h4>
+                    <p className="text-lg mt-2">{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

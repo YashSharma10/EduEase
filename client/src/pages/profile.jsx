@@ -373,6 +373,7 @@ const Profile = () => {
       );
       console.log("Saved Profile ID:", response.data);
       localStorage.setItem("profileId", JSON.stringify(response.data.profile));
+      localStorage.setItem("userid", JSON.stringify(response.data.profile._id));
       toast.success(`${response.data.message}`);
       navigate(`/`);
     } catch (error) {

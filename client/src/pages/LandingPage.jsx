@@ -53,7 +53,7 @@ export default function LandingPage() {
             </li>
             <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
               <FiUser size={18} />
-              <Link to="/profile" className="text-blue-300 hover:underline">
+              <Link to="/dashboard" className="text-blue-300 hover:underline">
                 Profile
               </Link>
             </li>
