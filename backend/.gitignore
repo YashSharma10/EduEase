@@ -1,0 +1,69 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
+*.env
+.env.*
+
+# Flask-related
+instance/
+*.db
+*.sqlite3
+
+# Pytest
+.pytest_cache/
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Python-specific
+pip-log.txt
+pip-delete-this-directory.txt
+Pipfile.lock
+poetry.lock
+poetry.toml
+
+# VS Code settings
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Ollama (if using Ollama locally)
+.ollama/
+
+# Model files (if any downloaded or stored manually)
+models/
+*.bin
+*.pt
+*.ckpt
+*.onnx
+
+# Ignore compiled Cython files
+*.c
+*.so
+
+# Node-related (if frontend is included)
+node_modules/
+dist/
+build/
+
+# Misc
+*.swp

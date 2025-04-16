@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { GenIcon } from "react-icons";
+import QuizForm from "@/components/ui/common/QuizForm";
+import axios from "axios";
 
 const QuizPage = () => {
   const [quizData, setQuizData] = useState([]);
@@ -7,61 +10,80 @@ const QuizPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [score, setScore] = useState(0);
-
+  const [personData, setPersonData] = useState(
+    JSON.parse(localStorage.getItem("profileId"))
+  );
   // Static quiz data
   const staticQuizData = [
     {
       type: "text",
       question: "What is the capital of France?",
       options: ["Berlin", "Madrid", "Paris", "Lisbon"],
-      answer: ["Paris"]
+      answer: ["Paris"],
     },
     {
       type: "text",
       question: "What is 2 + 2?",
       options: ["3", "4", "5", "6"],
-      answer: ["4"]
+      answer: ["4"],
     },
     {
       type: "text",
       question: "Which planet is known as the Red Planet?",
       options: ["Venus", "Mars", "Jupiter", "Saturn"],
-      answer: ["Mars"]
+      answer: ["Mars"],
     },
     {
       type: "text",
       question: "Who painted the Mona Lisa?",
-      options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-      answer: ["Leonardo da Vinci"]
-    }
+      options: [
+        "Vincent van Gogh",
+        "Pablo Picasso",
+        "Leonardo da Vinci",
+        "Michelangelo",
+      ],
+      answer: ["Leonardo da Vinci"],
+    },
   ];
 
   useEffect(() => {
-    // Commented out: Fetch quiz data from API
-    /*
+    console.log(personData.fullName);
+
     const fetchQuizData = async () => {
       try {
-        const response = await fetch('YOUR_API_ENDPOINT_HERE');
-        const data = await response.json();
-        setQuizData(data);
+        let topic = personData.classGrade;
+        let level = personData.learningStyle;
+        const res = await axios.post("http://localhost:5001/api/quiz/generate", {
+          topic,
+          level,
+        });
+    
+        const formattedQuizData = res.data.quiz.map((q) => ({
+          type: "text",
+          question: q.question,
+          options: q.options,
+          answer: [q.options[q.correct_answer]], // Convert correct index to value
+        }));
+    
+        setQuizData(formattedQuizData);
       } catch (error) {
-        console.error('Error fetching quiz data:', error);
-        setQuizData(staticQuizData); // Fallback to static data if API fails
+        console.error("Error fetching quiz data:", error);
+        setQuizData(staticQuizData); // fallback
       }
     };
+    
 
+    if (personData) {
+      fetchQuizData();
+    }
     fetchQuizData();
-    */
-
-    // Use static data for now
-    setQuizData(staticQuizData);
-  }, []);
+  }, [personData]);
 
   const handleOptionChange = (questionIndex, option) => {
     if (!submitted) {
       setSelectedAnswers({
         ...selectedAnswers,
-        [questionIndex]: option
+        [questionIndex]: option,
       });
     }
   };
@@ -69,7 +91,10 @@ const QuizPage = () => {
   const calculateScore = () => {
     let correctAnswers = 0;
     quizData.forEach((question, index) => {
-      if (selectedAnswers[index] && question.answer.includes(selectedAnswers[index])) {
+      if (
+        selectedAnswers[index] &&
+        question.answer.includes(selectedAnswers[index])
+      ) {
         correctAnswers++;
       }
     });
@@ -78,22 +103,25 @@ const QuizPage = () => {
 
   const storeQuizResults = async (results) => {
     try {
-      const response = await fetch('http://localhost:5000/api/store-quiz-results', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(results)
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/store-quiz-results",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(results),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('Quiz results stored successfully:', data);
+      console.log("Quiz results stored successfully:", data);
     } catch (error) {
-      console.error('Error storing quiz results:', error);
+      console.error("Error storing quiz results:", error);
     }
   };
 
@@ -106,21 +134,24 @@ const QuizPage = () => {
       score: calculatedScore,
       totalQuestions: quizData.length,
       correctAnswers: [],
-      wrongAnswers: []
+      wrongAnswers: [],
     };
 
     quizData.forEach((question, index) => {
-      if (selectedAnswers[index] && question.answer.includes(selectedAnswers[index])) {
+      if (
+        selectedAnswers[index] &&
+        question.answer.includes(selectedAnswers[index])
+      ) {
         results.correctAnswers.push({
           question: question.question,
           selectedAnswer: selectedAnswers[index],
-          correctAnswer: question.answer[0]
+          correctAnswer: question.answer[0],
         });
       } else {
         results.wrongAnswers.push({
           question: question.question,
           selectedAnswer: selectedAnswers[index],
-          correctAnswer: question.answer[0]
+          correctAnswer: question.answer[0],
         });
       }
     });
@@ -142,19 +173,19 @@ const QuizPage = () => {
       return {
         message: "Excellent work!",
         emoji: "🎉",
-        color: "text-green-400"
+        color: "text-green-400",
       };
     } else if (percentage >= 50) {
       return {
         message: "Good job!",
         emoji: "👍",
-        color: "text-blue-400"
+        color: "text-blue-400",
       };
     } else {
       return {
         message: "Keep practicing!",
         emoji: "💪",
-        color: "text-yellow-400"
+        color: "text-yellow-400",
       };
     }
   };
@@ -163,6 +194,7 @@ const QuizPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 to-black text-white overflow-auto">
+      {/* <QuizForm /> */}
       <section className="min-h-screen w-full flex flex-col items-center justify-start pt-12 pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -193,7 +225,8 @@ const QuizPage = () => {
                         const isSelected = selectedAnswers[index] === option;
                         const isCorrect = question.answer.includes(option);
                         const showCorrect = submitted && isCorrect;
-                        const showIncorrect = submitted && isSelected && !isCorrect;
+                        const showIncorrect =
+                          submitted && isSelected && !isCorrect;
 
                         return (
                           <label
@@ -202,12 +235,14 @@ const QuizPage = () => {
                               !submitted
                                 ? "hover:bg-gray-700/50 border-transparent"
                                 : showCorrect
-                                  ? "border-green-500 bg-green-900/20"
-                                  : showIncorrect
-                                    ? "border-red-500 bg-red-900/20"
-                                    : "border-transparent"
+                                ? "border-green-500 bg-green-900/20"
+                                : showIncorrect
+                                ? "border-red-500 bg-red-900/20"
+                                : "border-transparent"
                             } ${
-                              isSelected && !submitted ? "bg-blue-900/50 border-blue-400" : ""
+                              isSelected && !submitted
+                                ? "bg-blue-900/50 border-blue-400"
+                                : ""
                             }`}
                           >
                             <input
@@ -219,15 +254,22 @@ const QuizPage = () => {
                               className="mr-4 h-5 w-5 min-h-5 min-w-5 accent-blue-400"
                               disabled={submitted}
                             />
-                            <span className={`flex-1 text-left text-lg ${
-                              showCorrect ? "text-green-300 font-medium" :
-                              showIncorrect ? "text-red-300" :
-                              isSelected ? "text-blue-200 font-medium" :
-                              "text-gray-300"
-                            }`}>
+                            <span
+                              className={`flex-1 text-left text-lg ${
+                                showCorrect
+                                  ? "text-green-300 font-medium"
+                                  : showIncorrect
+                                  ? "text-red-300"
+                                  : isSelected
+                                  ? "text-blue-200 font-medium"
+                                  : "text-gray-300"
+                              }`}
+                            >
                               {option}
                               {showCorrect && !isSelected && (
-                                <span className="ml-3 text-sm text-green-300">(Correct answer)</span>
+                                <span className="ml-3 text-sm text-green-300">
+                                  (Correct answer)
+                                </span>
                               )}
                             </span>
                           </label>
@@ -242,11 +284,13 @@ const QuizPage = () => {
                 {!submitted ? (
                   <button
                     onClick={handleSubmit}
-                    disabled={Object.keys(selectedAnswers).length !== quizData.length}
+                    disabled={
+                      Object.keys(selectedAnswers).length !== quizData.length
+                    }
                     className={`px-10 py-4 rounded-full font-semibold text-lg text-white transition-all ${
-                      Object.keys(selectedAnswers).length === quizData.length ?
-                      "bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 shadow-lg shadow-blue-500/30 transform hover:scale-105" :
-                      "bg-gray-700 cursor-not-allowed opacity-70"
+                      Object.keys(selectedAnswers).length === quizData.length
+                        ? "bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-400 hover:to-blue-200 shadow-lg shadow-blue-500/30 transform hover:scale-105"
+                        : "bg-gray-700 cursor-not-allowed opacity-70"
                     }`}
                   >
                     Submit Answers
@@ -293,7 +337,9 @@ const QuizPage = () => {
                   </span>
                 </div>
 
-                <div className={`text-2xl font-semibold mb-6 ${performance.color}`}>
+                <div
+                  className={`text-2xl font-semibold mb-6 ${performance.color}`}
+                >
                   {performance.message} {performance.emoji}
                 </div>
 
