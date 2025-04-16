@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const QuizComponent = () => {
+const QuizPage = () => {
   const [quizData, setQuizData] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -335,4 +335,4 @@ const QuizComponent = () => {
   );
 };
 
-export default QuizComponent;
+export default QuizPage;

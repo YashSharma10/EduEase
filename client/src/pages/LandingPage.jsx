@@ -5,7 +5,7 @@ import {
   FiDollarSign,
   FiMail,
   FiBookOpen,
-  FiUser
+  FiUser,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -43,7 +43,9 @@ export default function LandingPage() {
             </li>
             <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
               <FiBookOpen size={18} />
-              Quizzes
+              <Link to="/quiz" className="text-blue-300 hover:underline">
+                Quizzes
+              </Link>
             </li>
             <li className="flex items-center gap-1 hover:text-white cursor-pointer transition">
               <FiStar size={18} />
