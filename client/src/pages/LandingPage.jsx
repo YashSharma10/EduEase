@@ -217,7 +217,7 @@ export default function LandingPage() {
           transition={{ duration: 1 }}
           className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100"
         >
-          What Makes NeuraTutor Unique?
+          What Makes EduEase Unique?
         </motion.h2>
 
         <div className="mt-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
