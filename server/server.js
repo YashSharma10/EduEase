@@ -28,6 +28,12 @@ db.once('open', () => {
 // Routes
 app.use('/api', profileRoutes);
 app.use('/api', quizRoutes);
+app.post('/api/chat', (req, res) => {
+  const { message } = req.body;
+  // Simulate a response from the bot
+  const reply = `You said: "${message}". This is a response from Edu Bot.`;
+  res.json({ reply });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
