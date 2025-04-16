@@ -150,8 +150,7 @@ import {
 import { FaRobot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Header from "../components/ui/common/header"; // Import the Header component
-import { Meteors } from "@/components/magicui/meteors";
-import GoogleAuthPage from "@/components/ui/common/GoogleAuthPage";
+import Roadmap from "../components/ui/Appflow"; // Import the Roadmap component
 
 export default function LandingPage() {
   return (
@@ -284,7 +283,9 @@ export default function LandingPage() {
             </p>
           </div>
         </div>
+        
       </section>
+      <Roadmap/>
     </div>
   );
 }

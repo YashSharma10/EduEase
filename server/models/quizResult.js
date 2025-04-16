@@ -1,7 +1,8 @@
-// models/quizResult.js
+// models/quizModel.js
+
 const mongoose = require('mongoose');
 
-const quizResultSchema = new mongoose.Schema({
+const quizSchema = new mongoose.Schema({
   score: Number,
   totalQuestions: Number,
   correctAnswers: [
@@ -15,12 +16,14 @@ const quizResultSchema = new mongoose.Schema({
     {
       question: String,
       selectedAnswer: String,
-      correctAnswer: String,
     },
   ],
-  timestamp: { type: Date, default: Date.now },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const QuizResult = mongoose.model('QuizResult', quizResultSchema);
+const Quiz = mongoose.model('quizresult', quizSchema);
 
-module.exports = QuizResult;
+module.exports = Quiz;
