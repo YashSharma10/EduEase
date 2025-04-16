@@ -37,7 +37,7 @@ def courses():
         url = "https://google.serper.dev/images"
 
         payload = json.dumps({
-        "q": query,
+        "q": f"{queary}",
         "gl": "in"
         })
         headers = {
@@ -45,10 +45,12 @@ def courses():
         'Content-Type': 'application/json'
         }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-
-        print(response.text)
-        return jsonify({"message": "Data received", "person": response.text}), 200
+        response = requests.post(url, headers=headers, data=payload)
+        response.raise_for_status()
+        data = response.json()
+        print(data)
+        # print("Serper data:", json.dumps(data, indent=2))
+        return data
 
     except Exception as e:
         print("Error parsing JSON:", e)
