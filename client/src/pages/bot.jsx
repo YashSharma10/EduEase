@@ -1,6 +1,6 @@
-// src/EduBot.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import Header from '@/components/ui/common/header';
 
 const EduBot = () => {
   const [messages, setMessages] = useState([]);
@@ -23,11 +23,13 @@ const EduBot = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-gray-800/50 p-6 md:p-8 rounded-xl shadow-2xl border border-gray-700 backdrop-blur-sm">
-      <div className="edu-bot-header text-center mb-4">
-        <h2 className="text-2xl font-bold text-blue-300">Edu Bot</h2>
+    
+    <div className="edu-bot-container min-h-screen w-full bg-gradient-to-br from-gray-900 to-black text-white flex flex-col items-center p-6">
+      <Header/>
+      <div className="edu-bot-header text-center mb-6 w-full">
+        <h2 className="text-3xl font-bold text-blue-300 my-10">Edu Bot</h2>
       </div>
-      <div className="edu-bot-messages max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar mb-4">
+      <div className="edu-bot-messages w-full max-w-3xl bg-gray-800/50 p-3 md:p-8 rounded-xl shadow-2xl border border-gray-700 backdrop-blur-sm flex-1 overflow-y-auto custom-scrollbar mb-2 ">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -39,7 +41,7 @@ const EduBot = () => {
           </div>
         ))}
       </div>
-      <div className="edu-bot-input flex">
+      <div className="edu-bot-input flex w-full max-w-3xl">
         <input
           type="text"
           value={input}

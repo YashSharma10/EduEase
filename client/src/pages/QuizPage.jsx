@@ -386,6 +386,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import Header from "@/components/ui/common/header";
 
 const QuizPage = () => {
   const [quizData, setQuizData] = useState([]);
@@ -567,6 +568,7 @@ const QuizPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 to-black text-white overflow-auto">
+      {/* <QuizForm /> */}
       <section className="min-h-screen w-full flex flex-col items-center justify-start pt-12 pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

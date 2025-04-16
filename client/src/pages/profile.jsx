@@ -273,6 +273,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import Header from "@/components/ui/common/header";
 
 
 const learningStyleOptions = [
@@ -373,6 +374,7 @@ const Profile = () => {
       );
       console.log("Saved Profile ID:", response.data);
       localStorage.setItem("profileId", JSON.stringify(response.data.profile));
+      localStorage.setItem("userid", JSON.stringify(response.data.profile._id));
       toast.success(`${response.data.message}`);
       navigate(`/`);
     } catch (error) {
@@ -383,6 +385,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
+      <Header />
       {/* Background and Motion Effects */}
       <motion.div
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
