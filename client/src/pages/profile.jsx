@@ -273,6 +273,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import Header from "@/components/ui/common/header";
 
 
 const learningStyleOptions = [
@@ -384,6 +385,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
+      <Header />
       {/* Background and Motion Effects */}
       <motion.div
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}

@@ -12,6 +12,7 @@ import {
   LineChart,
   Line,
 } from "recharts";
+import Header from "@/components/ui/common/header";
 
 // Mock data for the charts
 const learningProgressData = [
@@ -78,8 +79,9 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-section min-h-screen w-full bg-gradient-to-br from-gray-900 to-black text-white overflow-auto flex">
-      <div className="sidebar w-64 p-6 bg-gray-900">
-        <h2 className="text-2xl font-bold text-blue-300 mb-6">Learning Dashboard</h2>
+      <Header />
+      <div className="sidebar w-64 p-6 bg-gray-900 my-10">
+        <h2 className="text-2xl font-bold text-blue-300 mb-6 ">Learning Dashboard</h2>
         <button
           className={`sidebar-button px-4 py-2 rounded-full font-semibold mb-4 w-full text-left ${activeScreen === "overview" ? "bg-blue-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
           onClick={() => setActiveScreen("overview")}
@@ -92,9 +94,15 @@ const Dashboard = () => {
         >
           Student Data
         </button>
+        <button
+          className={`sidebar-button px-4 py-2 rounded-full font-semibold mb-4 w-full text-left ${activeScreen === "studentData" ? "bg-blue-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+          onClick={() => setActiveScreen("#")}
+        >
+          Update data to cloud
+        </button>
       </div>
 
-      <div className="main-content flex-1 p-6">
+      <div className="main-content flex-1 p-6 my-12">
         {activeScreen === "overview" && (
           <div className="overview-content">
             <div className="stats-overview grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -173,7 +181,7 @@ const Dashboard = () => {
         {activeScreen === "studentData" && (
           <div className="student-data-section">
             <div className="profile-card bg-gray-800 p-6 rounded-xl shadow-lg relative">
-              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold absolute top-4 right-4">
+              <button className="edit-button bg-blue-500 text-white px-4 py-2 rounded-full font-semibold absolute top-4 right-4 "onClick={() => navigate('/profile')}>
                 Edit
               </button>
               <h3 className="text-2xl font-bold mb-4">Student Profile</h3>
