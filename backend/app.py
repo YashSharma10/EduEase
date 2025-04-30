@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from routes.quiz import quiz_bp
 from routes.chat import chat_bp
-from routes.dashboard import dashboard_bp
+# from routes.dashboard import dashboard_bp
 from routes.courses import courses_bp
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ CORS(app)
 
 app.register_blueprint(quiz_bp, url_prefix='/api/quiz')
 app.register_blueprint(chat_bp, url_prefix='/api/chat')
-app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+# app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
 # app.register_blueprint(courses_bp, url_prefix='/api/courses')
 
 import requests

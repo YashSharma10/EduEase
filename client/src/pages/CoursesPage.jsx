@@ -209,7 +209,7 @@ export default function CoursesPage() {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <Header />
       <h1 className="text-4xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500 my-15">
-        Top Java Courses for 2025 {personData?.classGrade}{" "}
+        Top {personData.topicInput} Courses for {personData?.classGrade}{" "}
         {personData?.learningPace} {personData?.learningStyle}
       </h1>
 
